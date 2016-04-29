@@ -1,0 +1,94 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: verdana, arial, serif;
+  padding: 20px;
+  -webkit-transform: translateZ(0);
+  background-color: cornsilk;
+}
+
+.center {
+  text-align: center;
+  margin: 0 auto;
+}
+
+#heading-text {
+  font-size: 2em;
+  padding-bottom: 20px;
+}
+
+.container {
+  margin: 0 auto;
+  padding-top: 20px;
+  width: 713px;
+}
+
+.wheel1, .wheel2, .wheel3, .wheel4, .wheel5 {
+  width: 235px;
+  height: 155px;
+  float: left;
+}
+
+#slot-view {
+  position: relative;
+  width: 723px;
+  height: 155px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+@for $i from 0 through $countOfImages {
+  .symbol-#{$i} {
+    background-image: url('../assets/Symbol_#{$i}.png');
+  }
+}
+
+#control-btn {
+  background: url("../assets/button.png") no-repeat;
+  display: block;
+  width: 98px;
+  height: 98px;
+  cursor: pointer;
+  @include vendor-prefixes(border-radius, '50%');
+
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3), inset 0 2px 1px 0px white, inset 0 -1px 1px 1px rgba(204,198,197,.5);
+  opacity: 0.7;
+  -webkit-transition: -webkit-transform .8s ease-in-out;
+  transition: transform .8s ease-in-out;
+  &:hover{
+    opacity: 1;
+    @include vendor-prefixes(transition, 'all 0.2s linear');
+    @include vendor-prefixes(transform, 'rotate(360deg)');
+  }
+  &:active{
+    opacity: 0;
+    @include vendor-prefixes(transition, 'all 0.3s linear');
+  }
+}
+
+#result {
+  margin: 20px 0;
+  font-size: 18px;
+  font-weight: bold;
+  height: 22px;
+}
+
+.clear {
+  clear: both;
+}
+.hide {
+  display: none !important;
+}
+
+.spin1, .spin2 {
+  overflow: hidden;
+  position: absolute;
+  height: 930px;
+  div {
+    width: 235px;
+    height: 158px;
+    background-repeat: no-repeat;
+  }
+}

@@ -1,0 +1,46 @@
+
+/* Usage:
+@include vendor-prefixes(transform, 'scale(0, 0)');
+*/
+@mixin vendor-prefixes($property, $values) {
+  -webkit-#{$property}: #{$values};
+  -moz-#{$property}: #{$values};
+  -ms-#{$property}: #{$values};
+  -o-#{$property}: #{$values};
+  #{$property}: #{$values};
+}
+
+/* Usage:
+@include vendor-prefixes-blur-filter('5px');
+*/
+@mixin vendor-prefixes-blur-filter($value) {
+  -webkit-filter: blur(#{$value});
+  -moz-filter: blur(#{$value});
+  -ms-filter: blur(#{$value});
+  -o-filter: blur(#{$value});
+  filter: blur(#{$value});
+}
+
+/* Usage:
+@include keyframes(my-transition) {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+*/
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}

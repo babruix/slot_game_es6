@@ -1,0 +1,28 @@
+$animationDuration: 5;
+.run-animation {
+  .spin1 {
+    @include vendor-prefixes(animation, 'spinAnimation 1s linear #{$animationDuration}');
+  }
+  .spin2 {
+    @include vendor-prefixes(animation, 'spinAnimation2 1s linear #{$animationDuration}');
+  }
+  .spin1.animating, .spin2.animating {
+    @include vendor-prefixes-blur-filter('3px');
+  }
+}
+
+.wheel2 .spin1, .wheel2 .spin2 {
+  @include vendor-prefixes(animation-duration, '1.1s');
+}
+.wheel3 .spin1, .wheel3 .spin2 {
+  @include vendor-prefixes(animation-duration, '1.2s');
+}
+
+@include keyframes(spinAnimation) {
+  0% { top: 0; }
+  100% { top: 930px; }
+}
+@include keyframes(spinAnimation2) {
+  0% { top: -930px; }
+  100% { top: 0; }
+}

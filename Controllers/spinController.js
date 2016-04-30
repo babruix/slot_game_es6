@@ -7,7 +7,7 @@ var spinController = function () {
   }
   function wonBonusSpin() {
     // Random true/false
-    return Math.random() < 0.5;
+    return Math.random() < 0.3;
   }
 
   function getResultsText(randomSymbols, gotBonusSpin) {

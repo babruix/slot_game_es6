@@ -12,7 +12,8 @@ var stage = void 0,
     button = void 0,
     textDiv = void 0,
     animations = void 0,
-    bonusSpin = void 0;
+    bonusSpin = void 0,
+    bonusDiv = void 0;
 
 var appClient = function () {
   function appClient() {
@@ -23,6 +24,7 @@ var appClient = function () {
     button = document.getElementById('control-btn');
     button.addEventListener('click', appClient.getResultsFromServer);
     textDiv = document.getElementById('result');
+    bonusDiv = document.getElementById('bonus');
     animations = document.querySelectorAll('.spin1, .spin2');
     appClient.setSpinClasses([0, 0, 0]);
   }
@@ -38,7 +40,6 @@ var appClient = function () {
   }, {
     key: 'processResult',
     value: function processResult(result) {
-      console.log('got resuslt from server');
       var values = JSON.parse(result);
       // Show resulting text
       textDiv.innerHTML = values.textResult;
@@ -62,12 +63,21 @@ var appClient = function () {
       }
       if (bonusSpin) {
         bonusSpin = false;
-        alert('You have got bonus spin!!!');
-        appClient.getResultsFromServer();
+        bonusDiv.classList.remove('hide');
+        textDiv.classList.remove('hide');
+        button.classList.remove('hide');
+        // alert('You have got bonus spin!!!');
+        setTimeout(function () {
+          appClient.getResultsFromServer();
+        }, 100);
+        setTimeout(function () {
+          bonusDiv.classList.add('hide');
+        }, 3000);
+      } else {
+        button.classList.remove('hide');
+        textDiv.classList.remove('hide');
       }
       event.target.classList.remove('animating');
-      button.classList.remove('hide');
-      textDiv.classList.remove('hide');
     }
   }, {
     key: 'getResultsFromServer',
@@ -84,8 +94,6 @@ var appClient = function () {
           elem.addEventListener('animationend', appClient.animationStop, false);
         }
       }
-      console.log('got to line 68');
-
       appClient.httpGetAsync('http://localhost:8000/api/processSpin', appClient.processResult);
     }
   }, {

@@ -6,26 +6,29 @@
 
 const processSpinEndpointURL = 'http://localhost:8000/api/processSpin';
 
-let stage, button, textDiv, bonusSpin = false, bonusDiv;
-
 class appClient {
 
   constructor() {
-    appClient.initDomElements();
+    this.bonusSpin = false;
+    appClient.cacheDom();
     appClient.setEventListerens();
     appClient.setSpinClasses([0, 0, 0]);
   }
 
-  static initDomElements() {
-    stage = document.querySelector('.slot-view');
-    button = document.querySelector('.control-btn');
-    textDiv = document.querySelector('.result');
-    bonusDiv = document.querySelector('.bonus');
-  }
+  static cacheDom() {
+    this.stage = document.querySelector('.slot-view');
+    this.button = document.querySelector('.control-btn');
+    this.textDiv = document.querySelector('.result');
+    this.bonusDiv = document.querySelector('.bonus');
+    this.animations = document.querySelectorAll('.spin1, .spin2');
 
-  static setSpinClasses(values) {
-    for (let spinIndex of [1, 2, 3]) {
-      appClient.setAnimSpecificImage(spinIndex, values[spinIndex - 1]);
+    this.spinChildren = [];
+    for (let wheelIndex of [1, 2, 3]) {
+      this.spinChildren[wheelIndex] = [];
+      for (let spinIndex of [1, 2]) {
+        const selector = '.wheel' + wheelIndex + ' .spin' + spinIndex + ' > div';
+        this.spinChildren[wheelIndex][spinIndex] = document.querySelectorAll(selector);
+      }
     }
   }
 
@@ -33,35 +36,33 @@ class appClient {
     let values = JSON.parse(result);
 
     // Show resulting text
-    textDiv.innerHTML = values.textResult;
+    appClient.textDiv.innerHTML = values.textResult;
 
     // Set result images
     appClient.setSpinClasses(values.symbols);
 
     // Save bonus
     if (values.bonusSpin) {
-      bonusSpin = true;
+      appClient.bonusSpin = true;
     }
 
     // Hide text and button
-    textDiv.classList.add('hide');
-    button.classList.add('hide');
+    appClient.textDiv.classList.add('hide');
+    appClient.button.classList.add('hide');
 
-    // Trigger CSS animation by removing and adding class
-    stage.classList.remove('run-animation');
+    // Trigger CSS animation by adding class
+    const delayBeforeAddAnimationClasses = 20;
     setTimeout(() => {
-      stage.classList.add('run-animation');
-
-      let animations = document.querySelectorAll('.spin1, .spin2');
-      for (let [i, elem] of Array.from(animations).entries()) {
+      appClient.stage.classList.add('run-animation');
+      for (let [i, elem] of Array.from(appClient.animations).entries()) {
         elem.classList.add('animating');
       }
-    }, 20);
+    }, delayBeforeAddAnimationClasses);
   }
 
   static processBonusSpin() {
-    bonusSpin = false;
-    bonusDiv.classList.remove('hide');
+    appClient.bonusSpin = false;
+    appClient.bonusDiv.classList.remove('hide');
 
     const delayBeforeBonusSpinRuns = 2000;
     setTimeout(() => {
@@ -70,33 +71,33 @@ class appClient {
 
     const delayBeforeBonusTextHide = 5000;
     setTimeout(() => {
-      bonusDiv.classList.add('hide');
+      appClient.bonusDiv.classList.add('hide');
     }, delayBeforeBonusTextHide);
   }
 
-  static setAnimSpecificImage(imageIndex, rnd) {
-    for (let spinNum of [1, 2]) {
-      let spinChildren = document.querySelectorAll('.wheel' + imageIndex + ' .spin' + spinNum + ' > div');
+  static setAnimSpecificImage(wheelIndex, rnd) {
+    for (let spinIndex of [1, 2]) {
+      let spinChildren = this.spinChildren[wheelIndex][spinIndex];
 
-      for (let [i, childNode, imageNum] of Array.from(spinChildren).entries()) {
-        imageNum = i == 0 ? rnd : rnd + i;
-        imageNum = imageNum % spinChildren.length;
-        childNode.className = 'symbol-' + imageNum;
+      for (let [i, childNode, imageIndex] of Array.from(spinChildren).entries()) {
+        imageIndex = i == 0 ? rnd : rnd + i;
+        imageIndex = imageIndex % spinChildren.length;
+        childNode.className = 'symbol-' + imageIndex;
       }
     }
   }
 
-
-  static getSpinResultsFromServer() {
-    httpService.httpGetAsync(processSpinEndpointURL, appClient.processResult);
+  static setSpinClasses(values) {
+    for (let wheelIndex of [1, 2, 3]) {
+      appClient.setAnimSpecificImage(wheelIndex, values[wheelIndex - 1]);
+    }
   }
 
   static setEventListerens() {
-    button.addEventListener('click', appClient.getSpinResultsFromServer);
-    let animations = document.querySelectorAll('.spin1, .spin2');
-    for (let [i, elem] of Array.from(animations).entries()) {
+    appClient.button.addEventListener('click', appClient.getSpinResultsFromServer);
+    for (let [i, elem] of Array.from(appClient.animations).entries()) {
       elem.addEventListener('animationend', appClient.singleAnimationStopped, false);
-      if (i == animations.length - 1) {
+      if (i == appClient.animations.length - 1) {
         elem.addEventListener('animationend', appClient.lastAnimationStopped, false);
       }
     }
@@ -108,8 +109,15 @@ class appClient {
 
   static lastAnimationStopped(event) {
     event.target.classList.remove('animating');
-    textDiv.classList.remove('hide');
-    bonusSpin ? appClient.processBonusSpin() : button.classList.remove('hide');
+    appClient.stage.classList.remove('run-animation');
+    appClient.textDiv.classList.remove('hide');
+    appClient.bonusSpin
+      ? appClient.processBonusSpin() 
+      : appClient.button.classList.remove('hide');
+  }
+
+  static getSpinResultsFromServer() {
+    httpService.httpGetAsync(processSpinEndpointURL, appClient.processResult);
   }
 }
 

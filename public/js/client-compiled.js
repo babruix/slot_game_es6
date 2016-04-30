@@ -16,19 +16,10 @@ var stage = void 0,
 
 var appClient = function () {
   function appClient() {
-    var _this = this;
-
     _classCallCheck(this, appClient);
 
     bonusSpin = false;
     stage = document.getElementById('slot-view');
-    stage.addEventListener('webkitAnimationEnd', function () {
-      console.log('animation end');
-      /* if (!this.style) {return;}else {
-         debugger;
-       }*/
-      _this.style.webkitAnimationName = '';
-    }, false);
     button = document.getElementById('control-btn');
     button.addEventListener('click', appClient.getResultsFromServer);
     textDiv = document.getElementById('result');
@@ -47,6 +38,7 @@ var appClient = function () {
   }, {
     key: 'processResult',
     value: function processResult(result) {
+      console.log('got resuslt from server');
       var values = JSON.parse(result);
       // Show resulting text
       textDiv.innerHTML = values.textResult;
@@ -54,7 +46,12 @@ var appClient = function () {
       if (values.bonusSpin) {
         bonusSpin = true;
       }
-      stage.classList.add('run-animation');
+      setTimeout(function () {
+        stage.classList.remove('run-animation');
+      }, 10);
+      setTimeout(function () {
+        stage.classList.add('run-animation');
+      }, 100);
     }
   }, {
     key: 'animationStop',
@@ -75,16 +72,7 @@ var appClient = function () {
   }, {
     key: 'getResultsFromServer',
     value: function getResultsFromServer() {
-      window.setTimeout(function (e) {
-        stage = document.getElementById('slot-view');
-        if (stage.className != 'run-animation') {
-          stage.className = '';
-          stage.className = 'run-animation';
-        }
-      }, 10000);
       stage = document.getElementById('slot-view');
-      console.log('getResultsFromServer started');
-      console.log(stage.className);
       stage.className = '';
       console.log(stage.className);
       for (var i = 0, elem; i < animations.length; i++) {

@@ -11,13 +11,6 @@ class appClient {
   constructor() {
     bonusSpin = false;
     stage = document.getElementById('slot-view');
-    stage.addEventListener('webkitAnimationEnd', ()=> {
-      console.log('animation end');
-     /* if (!this.style) {return;}else {
-        debugger;
-      }*/
-      this.style.webkitAnimationName = '';
-    }, false);
     button = document.getElementById('control-btn');
     button.addEventListener('click', appClient.getResultsFromServer);
     textDiv = document.getElementById('result');
@@ -33,6 +26,7 @@ class appClient {
   }
 
   static processResult(result) {
+    console.log('got resuslt from server');
     let values = JSON.parse(result);
     // Show resulting text
     textDiv.innerHTML = values.textResult;
@@ -40,7 +34,12 @@ class appClient {
     if (values.bonusSpin) {
       bonusSpin = true;
     }
-    stage.classList.add('run-animation');
+    setTimeout(function () {
+    stage.classList.remove('run-animation');
+    },10);
+    setTimeout(function () {
+      stage.classList.add('run-animation');
+    },100);
   }
 
   static animationStop (event) {

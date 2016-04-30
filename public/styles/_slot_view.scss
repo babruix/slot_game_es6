@@ -1,71 +1,65 @@
-.wheel1, .wheel2, .wheel3, .wheel4, .wheel5 {
-  width: 235px;
-  height: 155px;
-  float: left;
-}
-
-#slot-view {
+.slot-view {
   position: relative;
   width: 723px;
   height: 155px;
   overflow: hidden;
   margin: 0 auto;
-}
 
-@for $i from 0 through $countOfImages {
-  .symbol-#{$i} {
-    background-image: url('../assets/Symbol_#{$i}.png');
+  .wheel1, .wheel2, .wheel3, .wheel4, .wheel5 {
+    width: 235px;
+    height: 155px;
+    float: left;
+
+    .spin1, .spin2 {
+      overflow: hidden;
+      position: absolute;
+      height: 930px;
+      div {
+        width: 235px;
+        height: 158px;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  @for $i from 0 through $countOfImages {
+    .symbol-#{$i} {
+      background-image: url('../assets/Symbol_#{$i}.png');
+    }
   }
 }
 
-#control-btn {
+.control-btn {
   background: url("../assets/button.png") no-repeat;
   display: block;
   width: 98px;
   height: 98px;
   margin-top: 40px;
   cursor: pointer;
-  overflow: hidden;
-  @include vendor-prefixes(border-radius, '50%');
-  @include vendor-prefixes(transition, 'all 0.1s ease-in');
+  border-radius: 50%;
+  transition: all 0.1s ease-in;
+
   &:hover {
     opacity: 1;
-    @include vendor-prefixes(transition, 'all 0.5s ease-in-out');
-    @include vendor-prefixes(transform, 'rotate(360deg)');
+    transition: all 0.5s ease-in-out;
+    transform: rotate(360deg);
   }
-  &:active{
+
+  &:active {
     opacity: 0.5;
-    @include vendor-prefixes(transition, 'all 0.2s ease-out');
+    transition: all 0.2s ease-out;
   }
 }
 
-#result {
-  margin: 10px 0;
-  font-size: 35px;
-  height: 20px;
-  color: $greenColor;
-}
-
-#bonus {
-  //color: #D4AF37;
+.bonus {
   text-align: center;
   font-size: 50px;
   height: 75px;
   margin-top: 30px;
   text-transform: uppercase;
-  text-shadow: 0 0 5px $bonusColor, 0 0 10px $bonusColor,
-  0 0 20px $bonusColor, 0 0 30px $bonusColor,
-  0 0 40px $bonusColor;
+  text-shadow: 0 0 5px $bonusColor, 0 0 5px $bonusColor,
+  0 0 10px $bonusColor, 0 0 15px $bonusColor,
+  0 0 15px $bonusColor;
   letter-spacing: 5px;
 }
 
-.spin1, .spin2 {
-  overflow: hidden;
-  position: absolute;
-  height: 930px;
-  div {
-    width: 235px;
-    height: 158px;
-    background-repeat: no-repeat;
-  }
-}

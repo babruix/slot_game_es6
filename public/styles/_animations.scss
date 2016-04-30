@@ -12,15 +12,15 @@ $animationDuration: 5;
 }
 
 .wheel1 .spin1, .wheel1 .spin2 {
-  @include vendor-prefixes(animation-duration, '.6s');
+  animation-duration: .6s;
 }
 
 .wheel2 .spin1, .wheel2 .spin2 {
-  @include vendor-prefixes(animation-duration, '.7s');
+  animation-duration: .7s;
 }
 
 .wheel3 .spin1, .wheel3 .spin2 {
-  @include vendor-prefixes(animation-duration, '.8s');
+  animation-duration: .8s;
 }
 
 @keyframes spinAnimation {

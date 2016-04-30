@@ -4,9 +4,9 @@ $blackColor: #000;
 $bonusColor: #A5F1FF;
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
 body {
@@ -29,8 +29,8 @@ body {
   display: inline-block;
 }
 
-#heading-text {
-  font-size: 2em;
+header {
+  font-size: 50px;
   padding-bottom: 10px;
 }
 
@@ -41,10 +41,17 @@ body {
   width: 713px;
 }
 
+.result {
+  margin: 10px 0;
+  font-size: 35px;
+  height: 20px;
+  color: $greenColor;
+}
+
 .clear {
   clear: both;
 }
 
-.hide {
-  display: none !important;
+div.hide {
+  display: none;
 }

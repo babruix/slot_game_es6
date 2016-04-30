@@ -37,24 +37,12 @@
   filter: blur(2px); }
 
 .wheel1 .spin1, .wheel1 .spin2 {
-  -webkit-animation-duration: .6s;
-  -moz-animation-duration: .6s;
-  -ms-animation-duration: .6s;
-  -o-animation-duration: .6s;
   animation-duration: .6s; }
 
 .wheel2 .spin1, .wheel2 .spin2 {
-  -webkit-animation-duration: .7s;
-  -moz-animation-duration: .7s;
-  -ms-animation-duration: .7s;
-  -o-animation-duration: .7s;
   animation-duration: .7s; }
 
 .wheel3 .spin1, .wheel3 .spin2 {
-  -webkit-animation-duration: .8s;
-  -moz-animation-duration: .8s;
-  -ms-animation-duration: .8s;
-  -o-animation-duration: .8s;
   animation-duration: .8s; }
 
 @keyframes spinAnimation {
@@ -68,9 +56,9 @@
   100% {
     margin-top: 0; } }
 * {
-  box-sizing: border-box;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  box-sizing: border-box; }
 
 body {
   color: #63D66C;
@@ -87,8 +75,8 @@ body {
   margin: 0 auto;
   display: inline-block; }
 
-#heading-text {
-  font-size: 2em;
+header {
+  font-size: 50px;
   padding-bottom: 10px; }
 
 .container {
@@ -97,23 +85,29 @@ body {
   padding-top: 10px;
   width: 713px; }
 
+.result {
+  margin: 10px 0;
+  font-size: 35px;
+  height: 20px;
+  color: #63D66C; }
+
 .clear {
   clear: both; }
 
-.hide {
-  display: none !important; }
+div.hide {
+  display: none; }
 
-.wheel1, .wheel2, .wheel3, .wheel4, .wheel5 {
-  width: 235px;
-  height: 155px;
-  float: left; }
-
-#slot-view {
+.slot-view {
   position: relative;
   width: 723px;
   height: 155px;
   overflow: hidden;
   margin: 0 auto; }
+
+.wheel1, .wheel2, .wheel3, .wheel4, .wheel5 {
+  width: 235px;
+  height: 155px;
+  float: left; }
 
 .symbol-0 {
   background-image: url("../assets/Symbol_0.png"); }
@@ -133,57 +127,30 @@ body {
 .symbol-5 {
   background-image: url("../assets/Symbol_5.png"); }
 
-#control-btn {
+.control-btn {
   background: url("../assets/button.png") no-repeat;
   display: block;
   width: 98px;
   height: 98px;
   margin-top: 40px;
   cursor: pointer;
-  overflow: hidden;
-  -webkit-border-radius: 50%;
-  -moz-border-radius: 50%;
-  -ms-border-radius: 50%;
-  -o-border-radius: 50%;
   border-radius: 50%;
-  -webkit-transition: all 0.1s ease-in;
-  -moz-transition: all 0.1s ease-in;
-  -ms-transition: all 0.1s ease-in;
-  -o-transition: all 0.1s ease-in;
   transition: all 0.1s ease-in; }
-  #control-btn:hover {
+  .control-btn:hover {
     opacity: 1;
-    -webkit-transition: all 0.5s ease-in-out;
-    -moz-transition: all 0.5s ease-in-out;
-    -ms-transition: all 0.5s ease-in-out;
-    -o-transition: all 0.5s ease-in-out;
     transition: all 0.5s ease-in-out;
-    -webkit-transform: rotate(360deg);
-    -moz-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
-    -o-transform: rotate(360deg);
     transform: rotate(360deg); }
-  #control-btn:active {
+  .control-btn:active {
     opacity: 0.5;
-    -webkit-transition: all 0.2s ease-out;
-    -moz-transition: all 0.2s ease-out;
-    -ms-transition: all 0.2s ease-out;
-    -o-transition: all 0.2s ease-out;
     transition: all 0.2s ease-out; }
 
-#result {
-  margin: 10px 0;
-  font-size: 35px;
-  height: 20px;
-  color: #63D66C; }
-
-#bonus {
+.bonus {
   text-align: center;
   font-size: 50px;
   height: 75px;
   margin-top: 30px;
   text-transform: uppercase;
-  text-shadow: 0 0 5px #A5F1FF, 0 0 10px #A5F1FF, 0 0 20px #A5F1FF, 0 0 30px #A5F1FF, 0 0 40px #A5F1FF;
+  text-shadow: 0 0 5px #A5F1FF, 0 0 5px #A5F1FF, 0 0 10px #A5F1FF, 0 0 15px #A5F1FF, 0 0 15px #A5F1FF;
   letter-spacing: 5px; }
 
 .spin1, .spin2 {

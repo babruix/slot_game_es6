@@ -62,17 +62,17 @@ var appClient = function () {
         elem.classList.remove('animating');
       }
       if (bonusSpin) {
+
         bonusSpin = false;
         bonusDiv.classList.remove('hide');
         textDiv.classList.remove('hide');
-        button.classList.remove('hide');
-        // alert('You have got bonus spin!!!');
+        // button.classList.remove('hide');
         setTimeout(function () {
           appClient.getResultsFromServer();
-        }, 100);
+        }, 2000);
         setTimeout(function () {
           bonusDiv.classList.add('hide');
-        }, 3000);
+        }, 5000);
       } else {
         button.classList.remove('hide');
         textDiv.classList.remove('hide');

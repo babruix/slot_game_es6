@@ -47,26 +47,19 @@ var appClient = function () {
       if (values.bonusSpin) {
         bonusSpin = true;
       }
-      setTimeout(function () {
-        stage.classList.remove('run-animation');
-      }, 10);
+      stage.classList.remove('run-animation');
       setTimeout(function () {
         stage.classList.add('run-animation');
-      }, 100);
+      }, 10);
     }
   }, {
-    key: 'animationStop',
-    value: function animationStop(event) {
-      for (var i = 0, elem; i < animations.length; i++) {
-        elem = animations[i];
-        elem.classList.remove('animating');
-      }
+    key: 'lastAnimationStopped',
+    value: function lastAnimationStopped(event) {
+      event.target.classList.remove('animating');
       if (bonusSpin) {
-
         bonusSpin = false;
         bonusDiv.classList.remove('hide');
         textDiv.classList.remove('hide');
-        // button.classList.remove('hide');
         setTimeout(function () {
           appClient.getResultsFromServer();
         }, 2000);
@@ -77,21 +70,20 @@ var appClient = function () {
         button.classList.remove('hide');
         textDiv.classList.remove('hide');
       }
-      event.target.classList.remove('animating');
     }
   }, {
     key: 'getResultsFromServer',
     value: function getResultsFromServer() {
       stage = document.getElementById('slot-view');
       stage.className = '';
-      console.log(stage.className);
       for (var i = 0, elem; i < animations.length; i++) {
         elem = animations[i];
         elem.classList.add('animating');
         textDiv.classList.add('hide');
         button.classList.add('hide');
+        elem.addEventListener('animationend', appClient.singleAnimationStopped, false);
         if (i == animations.length - 1) {
-          elem.addEventListener('animationend', appClient.animationStop, false);
+          elem.addEventListener('animationend', appClient.lastAnimationStopped, false);
         }
       }
       appClient.httpGetAsync('http://localhost:8000/api/processSpin', appClient.processResult);
@@ -121,6 +113,11 @@ var appClient = function () {
           childNode.className = 'symbol-' + imageNum;
         }
       }
+    }
+  }, {
+    key: 'singleAnimationStopped',
+    value: function singleAnimationStopped(e) {
+      this.classList.remove('animating');
     }
   }]);
 

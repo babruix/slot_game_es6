@@ -34,19 +34,14 @@ class appClient {
     if (values.bonusSpin) {
       bonusSpin = true;
     }
-    setTimeout(function () {
     stage.classList.remove('run-animation');
-    },10);
     setTimeout(function () {
       stage.classList.add('run-animation');
-    },100);
+    }, 10);
   }
 
-  static animationStop (event) {
-    for (let i = 0, elem; i < animations.length; i++) {
-      elem = animations[i];
-      elem.classList.remove('animating');
-    }
+  static lastAnimationStopped(event) {
+    event.target.classList.remove('animating');
     if (bonusSpin) {
       bonusSpin = false;
       bonusDiv.classList.remove('hide');
@@ -62,20 +57,19 @@ class appClient {
       button.classList.remove('hide');
       textDiv.classList.remove('hide');
     }
-    event.target.classList.remove('animating');
   };
 
   static getResultsFromServer() {
     stage = document.getElementById('slot-view');
     stage.className = '';
-    console.log(stage.className);
     for (let i = 0, elem; i < animations.length; i++) {
       elem = animations[i];
       elem.classList.add('animating');
       textDiv.classList.add('hide');
       button.classList.add('hide');
+      elem.addEventListener('animationend', appClient.singleAnimationStopped, false);
       if (i == animations.length - 1) {
-        elem.addEventListener('animationend', appClient.animationStop, false);
+        elem.addEventListener('animationend', appClient.lastAnimationStopped, false);
       }
     }
     appClient.httpGetAsync('http://localhost:8000/api/processSpin', appClient.processResult);
@@ -92,7 +86,7 @@ class appClient {
   }
 
   static setAnimSpecificImage(imageIndex, rnd) {
-    for (let spinNum of [1,2]) {
+    for (let spinNum of [1, 2]) {
       let spinChildren = document.querySelectorAll('.wheel' + imageIndex + ' .spin' + spinNum + ' > div');
       for (let i = 0, childNode, imageNum; i < spinChildren.length; i++) {
         childNode = spinChildren[i];
@@ -101,6 +95,10 @@ class appClient {
         childNode.className = 'symbol-' + imageNum;
       }
     }
+  }
+
+  static singleAnimationStopped(e) {
+    this.classList.remove('animating');
   }
 }
 

@@ -17,6 +17,6 @@
     "gulp-env": "^0.2.0"
   },
   "scripts": {
-    "babel": "babel --presets es2015 public/js/client-es6.js -o public/js/client-compiled.js"
+    "babel": "babel --watch --presets es2015 public/js/client-es6.js -o public/js/client-compiled.js"
   }
 }

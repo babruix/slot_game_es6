@@ -44,26 +44,3 @@
     @content;
   }
 }
-
-/* Usage:
-@include bp-Smartphones {
-    width: 100%;
-    float: none;
-    margin: 0;
-}
-*/
-@mixin bp-Desktops {
-  @media only screen  and (min-width : 1224px) {
-    @content;
-  }
-}
-@mixin bp-iPads {
-  @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
-    @content;
-  }
-}
-@mixin bp-Smartphones {
-  @media only screen and (min-device-width : 320px) and (max-device-width : 768px) {
-    @content;
-  }
-}

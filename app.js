@@ -11,16 +11,22 @@ let express = require('express')
 // Client static files.
 app.use(express.static(__dirname + '/public'));
 
-// Routes.
-var indexRouter = require('./Routes/apiIndex')();
-app.use('/api', indexRouter);
-
-var spinRouter = require('./Routes/slotRoutes')();
-app.use('/api/processSpin', spinRouter);
-
 // Listen on 8000 by default.
-app.listen(port, () => {
-  console.log('Game APP is listening on PORT: ' + port);
+let server = app.listen(port, () => {
+  // console.log('Game APP is listening on PORT: ' + port);
 });
 
+app.enableRoutes = ()=> {
+  var indexRouter = require('./Routes/apiIndex')();
+  app.use('/api', indexRouter);
+
+  var spinRouter = require('./Routes/slotRoutes')();
+  app.use('/api/processSpin', spinRouter);
+};
+
+app.stopServer = ()=> {
+  server.close();
+};
+
+app.enableRoutes();
 module.exports = app;

@@ -1,13 +1,10 @@
-let gulp = require('gulp'),
-  nodemon = require('gulp-nodemon'),
- shell = require('gulp-shell');
-//gulpMocha = require('gulp-mocha'),
-//env = require('gulp-env'),
-//supertest = require('supertest');
+let gulp = require('gulp')
+  , nodemon = require('gulp-nodemon')
+  , shell = require('gulp-shell');
 
-gulp.task('default', ['runApp', 'openBrowser']);
+gulp.task('default', ['run', 'openBrowser']);
 
-gulp.task('runApp', () => {
+gulp.task('run', () => {
   nodemon({
     script: 'app.js',
     ext: 'js',
@@ -24,10 +21,3 @@ gulp.task('runApp', () => {
 gulp.task('openBrowser', shell.task([
   'open http://localhost:8000'
 ]));
-
-/*
-gulp.task('test', () => {
-  env({vars: {ENV: 'Test'}});
-  gulp.src('tests/!*.js', {read: false})
-    .pipe(gulpMocha({reporter: 'nyan'}))
-});*/

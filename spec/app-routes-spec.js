@@ -22,7 +22,7 @@ describe('App routes', ()=> {
         var $ = cheerio.load(body);
         expect($('header').text()).toBe('Demo app for NetEnt');
         expect($('.bonus').text()).toBe('Bonus Spin!');
-        expect($('a').text()).toBe('API index');
+        expect($('a').text()).toBe('API documentation ->');
         done();
       });
     });

@@ -2,26 +2,26 @@
  * Contains server code for demo app.
  */
 
-"use strict";
+'use strict';
 
-var express = require('express'), bodyParser = require('body-parser'), cors = require('cors');
-var app = express();
-app.use(cors());
-var port = process.env.PORT || 3000;
+let express = require('express')
+  , app = express()
+  , port = process.env.PORT || 8000
+  , fs = require('fs')
+  , cssFile;
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use(express.static('client'));
+// Client static files
+app.use(express.static(__dirname + '/public'));
 
+var indexRouter = require('./Routes/apiIndex')();
+app.use('/api', indexRouter);
 
-app.get('/', function (req, res) {
-  res.send('API index');
-});
-
-var spinRouter = require('./Routes/spinRoutes')();
+var spinRouter = require('./Routes/slotRoutes')();
 app.use('/api/processSpin', spinRouter);
 
-app.listen(port, function () {
-    console.log('Gulp is running on  PORT: ' + port);
+app.set('view options', {pretty: true});
+app.listen(port, () => {
+  console.log('Game APP is listening on PORT: ' + port);
 });
+
 module.exports = app;

@@ -19,7 +19,7 @@ var appClient = function () {
     this.bonusSpin = false;
     appClient.cacheDom();
     appClient.setEventListerens();
-    appClient.setSpinClasses([0, 0, 0]);
+    appClient.setSpinClasses();
   }
 
   _createClass(appClient, null, [{
@@ -47,16 +47,20 @@ var appClient = function () {
   }, {
     key: 'processResult',
     value: function processResult(result) {
-      var values = JSON.parse(result);
+      var _JSON$parse = JSON.parse(result);
 
+      var textResult = _JSON$parse.textResult;
+      var symbols = _JSON$parse.symbols;
+      var bonusSpin = _JSON$parse.bonusSpin;
       // Show resulting text
-      appClient.textDiv.innerHTML = values.textResult;
+
+      appClient.textDiv.innerHTML = textResult;
 
       // Set result images
-      appClient.setSpinClasses(values.symbols);
+      appClient.setSpinClasses(symbols);
 
       // Save bonus
-      if (values.bonusSpin) {
+      if (bonusSpin) {
         appClient.bonusSpin = true;
       }
 
@@ -64,9 +68,11 @@ var appClient = function () {
       appClient.textDiv.classList.add('hide');
       appClient.button.classList.add('hide');
 
-      // Trigger CSS animation by adding class
-      var delayBeforeAddAnimationClasses = 20;
-      setTimeout(function () {
+      // Trigger CSS animation by adding class.
+      new Promise(function (resolve, reject) {
+        var delayBeforeAddAnimationClasses = 20;
+        setTimeout(resolve, delayBeforeAddAnimationClasses);
+      }).then(function () {
         appClient.stage.classList.add('run-animation');
         var _iteratorNormalCompletion = true;
         var _didIteratorError = false;
@@ -95,7 +101,7 @@ var appClient = function () {
             }
           }
         }
-      }, delayBeforeAddAnimationClasses);
+      });
     }
   }, {
     key: 'processBonusSpin',
@@ -103,24 +109,29 @@ var appClient = function () {
       appClient.bonusSpin = false;
       appClient.bonusDiv.classList.remove('hide');
 
-      var delayBeforeBonusSpinRuns = 2000;
-      setTimeout(function () {
+      // Trigger bonus spin.
+      new Promise(function (resolve, reject) {
+        var delayBeforeBonusSpinRuns = 2000;
+        setTimeout(resolve, delayBeforeBonusSpinRuns);
+      }).then(function () {
         appClient.getSpinResultsFromServer();
-      }, delayBeforeBonusSpinRuns);
+      });
 
-      var delayBeforeBonusTextHide = 5000;
-      setTimeout(function () {
+      // Hide bonus text.
+      new Promise(function (resolve, reject) {
+        var delayBeforeBonusTextHide = 5000;
+        setTimeout(resolve, delayBeforeBonusTextHide);
+      }).then(function () {
         appClient.bonusDiv.classList.add('hide');
-      }, delayBeforeBonusTextHide);
+      });
     }
   }, {
     key: 'setAnimSpecificImage',
     value: function setAnimSpecificImage(wheelIndex, rnd) {
-      var _arr3 = [1, 2];
+      var _this = this;
 
-      for (var _i3 = 0; _i3 < _arr3.length; _i3++) {
-        var spinIndex = _arr3[_i3];
-        var spinChildren = this.spinChildren[wheelIndex][spinIndex];
+      [1, 2].map(function (spinIndex) {
+        var spinChildren = _this.spinChildren[wheelIndex][spinIndex];
 
         var _iteratorNormalCompletion2 = true;
         var _didIteratorError2 = false;
@@ -152,22 +163,22 @@ var appClient = function () {
             }
           }
         }
-      }
+      });
     }
   }, {
     key: 'setSpinClasses',
-    value: function setSpinClasses(values) {
-      var _arr4 = [1, 2, 3];
+    value: function setSpinClasses() {
+      var values = arguments.length <= 0 || arguments[0] === undefined ? [0, 0, 0] : arguments[0];
 
-      for (var _i4 = 0; _i4 < _arr4.length; _i4++) {
-        var wheelIndex = _arr4[_i4];
+      [1, 2, 3].map(function (wheelIndex) {
         appClient.setAnimSpecificImage(wheelIndex, values[wheelIndex - 1]);
-      }
+      });
     }
   }, {
     key: 'setEventListerens',
     value: function setEventListerens() {
       appClient.button.addEventListener('click', appClient.getSpinResultsFromServer);
+
       var _iteratorNormalCompletion3 = true;
       var _didIteratorError3 = false;
       var _iteratorError3 = undefined;
@@ -180,6 +191,7 @@ var appClient = function () {
           var elem = _step3$value[1];
 
           elem.addEventListener('animationend', appClient.singleAnimationStopped, false);
+
           if (i == appClient.animations.length - 1) {
             elem.addEventListener('animationend', appClient.lastAnimationStopped, false);
           }
@@ -215,7 +227,11 @@ var appClient = function () {
   }, {
     key: 'getSpinResultsFromServer',
     value: function getSpinResultsFromServer() {
-      httpService.httpGetAsync(processSpinEndpointURL, appClient.processResult);
+      httpService.makeRequest('GET', processSpinEndpointURL).then(function (result) {
+        appClient.processResult(result);
+      }).catch(function (err) {
+        console.error(err.statusText);
+      });
     }
   }]);
 
@@ -228,18 +244,34 @@ var httpService = function () {
   }
 
   _createClass(httpService, null, [{
-    key: 'httpGetAsync',
-    value: function httpGetAsync(theUrl, callback) {
-      var xmlHttp = new XMLHttpRequest();
+    key: 'makeRequest',
+    value: function makeRequest(method, url) {
 
-      xmlHttp.onreadystatechange = function (oEvent) {
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-          callback(xmlHttp.responseText);
-        }
-      };
+      return new Promise(function (resolve, reject) {
 
-      xmlHttp.open('GET', theUrl, true); // true for asynchronous
-      xmlHttp.send(null);
+        var xhr = new XMLHttpRequest();
+        xhr.open(method, url);
+
+        xhr.onload = function () {
+          if (this.status >= 200 && this.status < 300) {
+            resolve(xhr.response);
+          } else {
+            reject({
+              status: this.status,
+              statusText: xhr.statusText
+            });
+          }
+        };
+
+        xhr.onerror = function () {
+          reject({
+            status: this.status,
+            statusText: xhr.statusText
+          });
+        };
+
+        xhr.send();
+      });
     }
   }]);
 

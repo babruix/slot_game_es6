@@ -1,12 +1,11 @@
-var express = require('express');
+var express = require('express')
+  , spinRouter = express.Router()
+  , spinController = require('../Controllers/spinController')();
 
 var routes = function () {
-  var spinRouter = express.Router();
-  var spinController = require('../Controllers/spinController')();
-
   spinRouter.route('/')
     .get(spinController.getSpinResults);
-
+  
   return spinRouter;
 };
 

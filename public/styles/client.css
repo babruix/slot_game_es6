@@ -97,35 +97,40 @@ header {
 div.hide {
   display: none; }
 
+.api-index {
+  text-align: left;
+  margin-left: 2%; }
+
 .slot-view {
   position: relative;
   width: 723px;
   height: 155px;
   overflow: hidden;
   margin: 0 auto; }
-
-.wheel1, .wheel2, .wheel3, .wheel4, .wheel5 {
-  width: 235px;
-  height: 155px;
-  float: left; }
-
-.symbol-0 {
-  background-image: url("../assets/Symbol_0.png"); }
-
-.symbol-1 {
-  background-image: url("../assets/Symbol_1.png"); }
-
-.symbol-2 {
-  background-image: url("../assets/Symbol_2.png"); }
-
-.symbol-3 {
-  background-image: url("../assets/Symbol_3.png"); }
-
-.symbol-4 {
-  background-image: url("../assets/Symbol_4.png"); }
-
-.symbol-5 {
-  background-image: url("../assets/Symbol_5.png"); }
+  .slot-view .wheel1, .slot-view .wheel2, .slot-view .wheel3, .slot-view .wheel4, .slot-view .wheel5 {
+    width: 235px;
+    height: 155px;
+    float: left; }
+    .slot-view .wheel1 .spin1, .slot-view .wheel1 .spin2, .slot-view .wheel2 .spin1, .slot-view .wheel2 .spin2, .slot-view .wheel3 .spin1, .slot-view .wheel3 .spin2, .slot-view .wheel4 .spin1, .slot-view .wheel4 .spin2, .slot-view .wheel5 .spin1, .slot-view .wheel5 .spin2 {
+      overflow: hidden;
+      position: absolute;
+      height: 930px; }
+      .slot-view .wheel1 .spin1 div, .slot-view .wheel1 .spin2 div, .slot-view .wheel2 .spin1 div, .slot-view .wheel2 .spin2 div, .slot-view .wheel3 .spin1 div, .slot-view .wheel3 .spin2 div, .slot-view .wheel4 .spin1 div, .slot-view .wheel4 .spin2 div, .slot-view .wheel5 .spin1 div, .slot-view .wheel5 .spin2 div {
+        width: 235px;
+        height: 158px;
+        background-repeat: no-repeat; }
+  .slot-view .symbol-0 {
+    background-image: url("../assets/Symbol_0.png"); }
+  .slot-view .symbol-1 {
+    background-image: url("../assets/Symbol_1.png"); }
+  .slot-view .symbol-2 {
+    background-image: url("../assets/Symbol_2.png"); }
+  .slot-view .symbol-3 {
+    background-image: url("../assets/Symbol_3.png"); }
+  .slot-view .symbol-4 {
+    background-image: url("../assets/Symbol_4.png"); }
+  .slot-view .symbol-5 {
+    background-image: url("../assets/Symbol_5.png"); }
 
 .control-btn {
   background: url("../assets/button.png") no-repeat;
@@ -152,14 +157,5 @@ div.hide {
   text-transform: uppercase;
   text-shadow: 0 0 5px #A5F1FF, 0 0 5px #A5F1FF, 0 0 10px #A5F1FF, 0 0 15px #A5F1FF, 0 0 15px #A5F1FF;
   letter-spacing: 5px; }
-
-.spin1, .spin2 {
-  overflow: hidden;
-  position: absolute;
-  height: 930px; }
-  .spin1 div, .spin2 div {
-    width: 235px;
-    height: 158px;
-    background-repeat: no-repeat; }
 
 /*# sourceMappingURL=client.css.map */

@@ -6,20 +6,19 @@
 
 let express = require('express')
   , app = express()
-  , port = process.env.PORT || 8000
-  , fs = require('fs')
-  , cssFile;
+  , port = process.env.PORT || 8000;
 
-// Client static files
+// Client static files.
 app.use(express.static(__dirname + '/public'));
 
+// Routes.
 var indexRouter = require('./Routes/apiIndex')();
 app.use('/api', indexRouter);
 
 var spinRouter = require('./Routes/slotRoutes')();
 app.use('/api/processSpin', spinRouter);
 
-app.set('view options', {pretty: true});
+// Listen on 8000 by default.
 app.listen(port, () => {
   console.log('Game APP is listening on PORT: ' + port);
 });

@@ -1,20 +1,28 @@
-var spinModel = {};
+/**
+ * Generates random Spin results.
+ */
+class spinModel {
 
-spinModel.spinResults = function (onComplete, onError) {
+  static getSpinResultingNumbers(numOfWheels = 3) {
+    let results = [];
+    [...new Array(numOfWheels).keys()].map(() => {
+      results.push(spinModel.randomNumer());
+    });
+    return results;
+  }
 
-  var promise = new Promise(function(resolve, reject) {
-    // do a thing, possibly async, then…
+  static randomNumer(maxNumber = 6) {
+    return Math.floor(Math.random() * maxNumber);
+  }
 
-    if (1) {
-      resolve([1,2,4]);
-    }
-    else {
-      reject(Error("It broke"));
-    }
-  });
+  static wonBonusSpin(percentChanceToWin = 30) {
+    return Math.random() < percentChanceToWin / 100;
+  }
+}
 
-  return promise;
+module.exports = () => {
+  return {
+    getSpinResultingNumbers: spinModel.getSpinResultingNumbers,
+    wonBonusSpin: spinModel.wonBonusSpin
+  }
 };
-
-
-module.exports = spinModel;

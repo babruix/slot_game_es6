@@ -1,65 +1,58 @@
-var spinModel = require('../Models/spinModel');
+var spinModel = require('../Models/spinModel')();
 
-var spinController = function () {
+class spinController {
+  static getSpinResults(req, res) {
 
-  function randomNumer() {
-    return Math.floor(Math.random() * 6);
-  }
-  function wonBonusSpin() {
-    // Random true/false
-    return Math.random() < 0.5;
-  }
-
-  function getResultsText(randomSymbols, gotBonusSpin) {
-
-    function getMaxDuplicates() {
-      var maxDuplicates = 0;
-      var counts = {};
-      randomSymbols.forEach(function (x) {
-        counts[x] = (counts[x] || 0) + 1;
-        if (counts[x] > maxDuplicates) {
-          maxDuplicates = counts[x];
-        }
-      });
-      return maxDuplicates;
-    }
-
-    var countDuplicates = getMaxDuplicates();
-
-    var text = '';
-    switch (countDuplicates) {
-      case 1: text = 'No Win'; break;
-      case 2: text = 'Small Win'; break;
-      case 3: text = 'Big Win'; break;
-    }
-    if (gotBonusSpin) {
-      text = text + ', BONUS SPIN!';
-    }
-    return text;
-  }
-
-  var getSpinResults = function (req, res) {
-    var randomSymbols = [randomNumer(), randomNumer(), randomNumer()];
-    var bonusSpin = wonBonusSpin();
-    var textResult = getResultsText(randomSymbols, bonusSpin);
-    var results = {
-      symbols: randomSymbols,
+    let resultNumbers = spinModel.getSpinResultingNumbers()
+      , bonusSpin = spinModel.wonBonusSpin()
+      , textResult = spinController.getResultsAsText(resultNumbers, bonusSpin)
+      , results = {
+      symbols: resultNumbers,
       textResult: textResult,
       bonusSpin: bonusSpin
     };
+
     res.json(results);
-    spinModel.spinResults(req, function (results) {
-
-      res.json(results);
-
-    }, function (e) {
-      console.log(e);
-    });
   };
-  
+
+  static getResultsAsText(randomSymbols, gotBonusSpin) {
+
+    let text = '';
+    switch (spinController.getMaxCountOfDuplicates(randomSymbols)) {
+      case 1:
+        text = 'No Win';
+        break;
+      case 2:
+        text = 'Small Win';
+        break;
+      case 3:
+        text = 'Big Win';
+        break;
+    }
+
+    if (gotBonusSpin) {
+      text = `${text}, BONUS SPIN!`;
+    }
+    return text;
+  };
+
+  static getMaxCountOfDuplicates(numbers) {
+    let maxCountOfDuplicates = 0, allDuplicates = [];
+
+    numbers.forEach(x => {
+      allDuplicates[x] = (allDuplicates[x] || 0) + 1;
+
+      if (allDuplicates[x] > maxCountOfDuplicates) {
+        maxCountOfDuplicates = allDuplicates[x];
+      }
+    });
+
+    return maxCountOfDuplicates;
+  };
+}
+
+module.exports = () => {
   return {
-    getSpinResults: getSpinResults
+    getSpinResults: spinController.getSpinResults
   }
 };
-
-module.exports = spinController;

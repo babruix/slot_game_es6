@@ -10,9 +10,17 @@ gulp
 
 Using express to implement a Rest API server that:
  * receive requests from client and return an outcome 
+ /api
+   shows API documentation page
  /api/processSpin
    returns result in JSON format with outcome:
         - symbols: list of three random integers between 0-5;
         - textResult: No Win, Small Win, Big Win
         - bonusSpin : true/false
    
+   
+### To run tests
+
+1. Close runing application.
+
+2. npm test

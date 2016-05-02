@@ -1,26 +1,23 @@
-var gulp = require('gulp'),
-  nodemon = require('gulp-nodemon');
-//gulpMocha = require('gulp-mocha'),
-//env = require('gulp-env'),
-//supertest = require('supertest');
+let gulp = require('gulp')
+  , nodemon = require('gulp-nodemon')
+  , shell = require('gulp-shell');
 
+gulp.task('default', ['run', 'openBrowser']);
 
-gulp.task('default', function(){
+gulp.task('run', () => {
   nodemon({
     script: 'app.js',
     ext: 'js',
     env: {
-      PORT:8000
+      PORT: 8000
     },
     ignore: ['./node_modules/**']
   })
-    .on('restart', function(){
+    .on('restart', () => {
       console.log('Restarting');
     });
 });
 
-gulp.task('test', function(){
-  env({vars: {ENV:'Test'}});
-  gulp.src('tests/*.js', {read: false})
-    .pipe(gulpMocha({reporter: 'nyan'}))
-});
+gulp.task('openBrowser', shell.task([
+  'open http://localhost:8000'
+]));

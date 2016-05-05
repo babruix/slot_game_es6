@@ -1,0 +1,38 @@
+mixin spinDivs(count)
+    - var n = 0;
+    while n < count
+        div
+        - n++;
+
+mixin twoSpins
+    .spin1
+        +spinDivs(6)
+    .spin2
+        +spinDivs(6)
+
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0, user-scalable=yes')
+        title Demo for NetEnt
+        script(src='js/client-compiled.js')
+        link(href='styles/client.css', rel='stylesheet')
+        meta(charset='UTF-8')
+    body
+        .center
+            .container
+                header.center Demo app for NetEnt
+                .slot-view
+                    .wheel1
+                        +twoSpins
+                    .wheel2
+                        +twoSpins
+                    .wheel3
+                        +twoSpins
+                    .clear
+                .result.hide
+                .bonus.hide Bonus Spin!
+                div
+                    .control-btn.center
+        a.right-top(href='http://localhost:8000/api') API documentation ->

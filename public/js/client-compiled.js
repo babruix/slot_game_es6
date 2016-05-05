@@ -18,7 +18,7 @@ var appClient = function () {
 
     this.bonusSpin = false;
     appClient.cacheDom();
-    appClient.setEventListerens();
+    appClient.setEventListeners();
     appClient.setSpinClasses();
   }
 
@@ -175,7 +175,7 @@ var appClient = function () {
       });
     }
   }, {
-    key: 'setEventListerens',
+    key: 'setEventListeners',
     value: function setEventListerens() {
       appClient.button.addEventListener('click', appClient.getSpinResultsFromServer);
 

@@ -11,7 +11,7 @@ class appClient {
   constructor() {
     this.bonusSpin = false;
     appClient.cacheDom();
-    appClient.setEventListerens();
+    appClient.setEventListeners();
     appClient.setSpinClasses();
   }
 
@@ -100,7 +100,7 @@ class appClient {
     });
   }
 
-  static setEventListerens() {
+  static setEventListeners() {
     appClient.button.addEventListener('click', appClient.getSpinResultsFromServer);
 
     for (let [i, elem] of Array.from(appClient.animations).entries()) {
